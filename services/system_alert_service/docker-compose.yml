@@ -1,0 +1,13 @@
+services:
+  system_alert_service:
+    container_name: system_alert_service
+    image: system_alert_service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9103:9103
+    volumes:
+      - ./repository/:/app/repository/
+    env_file:
+      - environments/.env.local 

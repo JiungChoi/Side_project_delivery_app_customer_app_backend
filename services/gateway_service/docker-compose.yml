@@ -1,0 +1,13 @@
+services:
+  gateway_service:
+    container_name: gateway_service
+    image: gateway_service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9102:9102
+    volumes:
+      - ./repository/:/app/repository/
+    env_file:
+      - environments/.env.local 

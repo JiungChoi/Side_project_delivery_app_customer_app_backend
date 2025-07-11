@@ -1,0 +1,13 @@
+services:
+  auth_service:
+    container_name: auth_service
+    image: auth_service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9101:9101
+    volumes:
+      - ./repository/:/app/repository/
+    env_file:
+      - environments/.env.local 
