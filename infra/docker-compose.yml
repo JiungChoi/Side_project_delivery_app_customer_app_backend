@@ -1,18 +1,22 @@
-version: "3.11.4"
-
 services:
   postgres:
-    image: postgres:latest
-    container_name: postgres
+    image: postgres:15
+    container_name: postgres_main
     restart: "unless-stopped"
     environment:
-      POSTGRES_USER: digitrack # 사용자명 설정
-      POSTGRES_PASSWORD: digitrack # 비밀번호 설정
-      POSTGRES_DB: digitrack # 데이터베이스 이름 설정
+      POSTGRES_USER: digitrack
+      POSTGRES_PASSWORD: digitrack
+      POSTGRES_DB: digitrack
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_main_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"         # 로컬에서 PostgreSQL 포트에 접근 가능
+      - "5432:5432"
+    networks:
+      - app_network
 
 volumes:
-  postgres_data:
+  postgres_main_data:
+
+networks:
+  app_network:
+    driver: bridge

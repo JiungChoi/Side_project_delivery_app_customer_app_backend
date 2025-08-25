@@ -2,21 +2,21 @@
 
 ## 서비스 및 포트 정보
 
-| 서비스명                    | 포트  | 역할 요약                           |
-|-----------------------------|-------|-------------------------------------|
-| auth_service                | 9101  | 인증, 인가, 세션 관리               |
-| gateway_service             | 9102  | API 통합 진입점, 인증/라우팅/로깅   |
-| system_alert_service        | 9103  | 시스템 이벤트/에러/경고 알림        |
-| delivery_tracking_service   | 9104  | 배송 위치 실시간 추적               |
-| customer_support_service    | 9105  | 고객 문의/FAQ/실시간 채팅           |
-| notification_service        | 9106  | 푸시알림, SMS, 앱 내 알림           |
-| review_service              | 9107  | 리뷰/평점/사진 첨부                 |
-| payment_service             | 9108  | 결제수단, 결제 처리, 포인트/쿠폰    |
-| order_service               | 9109  | 주문 생성/조회/상태변경/취소        |
-| cart_service                | 9110  | 장바구니 생성/조회/수정/삭제        |
-| menu_service                | 9111  | 메뉴/옵션/이미지 관리               |
-| restaurant_service          | 9112  | 음식점 정보/검색/상세/메뉴 제공     |
-| user_service                | 9113  | 회원가입/로그인/프로필/정보관리     |
+| 서비스명                  | 포트 | 역할 요약                         |
+| ------------------------- | ---- | --------------------------------- |
+| auth_service              | 9101 | 인증, 인가, 세션 관리             |
+| gateway_service           | 9102 | API 통합 진입점, 인증/라우팅/로깅 |
+| system_alert_service      | 9103 | 시스템 이벤트/에러/경고 알림      |
+| delivery_tracking_service | 9104 | 배송 위치 실시간 추적             |
+| customer_support_service  | 9105 | 고객 문의/FAQ/실시간 채팅         |
+| notification_service      | 9106 | 푸시알림, SMS, 앱 내 알림         |
+| review_service            | 9107 | 리뷰/평점/사진 첨부               |
+| payment_service           | 9108 | 결제수단, 결제 처리, 포인트/쿠폰  |
+| order_service             | 9109 | 주문 생성/조회/상태변경/취소      |
+| cart_service              | 9110 | 장바구니 생성/조회/수정/삭제      |
+| menu_service              | 9111 | 메뉴/옵션/이미지 관리             |
+| restaurant_service        | 9112 | 음식점 정보/검색/상세/메뉴 제공   |
+| user_service              | 9113 | 회원가입/로그인/프로필/정보관리   |
 
 ---
 

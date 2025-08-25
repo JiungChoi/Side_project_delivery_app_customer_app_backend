@@ -1,0 +1,16 @@
+services:
+
+  order-service:
+    container_name: order-service
+    image: ghcr.io/digitrack-inc/order-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8001:9109
+    env_file:
+      - environments/.env.local
+    external_links:
+      - postgres_main:postgres
+    networks:
+      - app_network

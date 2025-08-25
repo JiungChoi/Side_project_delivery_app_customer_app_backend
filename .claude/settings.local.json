@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(alembic init:*)",
+      "Bash(docker-compose exec:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
