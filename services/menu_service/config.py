@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 import os
 import dotenv
 from utility.logger import logger
 
-# .env |X XΩ ¿| \‹i»‰
+# Load environment variables from .env file
 ENVFILE = os.getenv("ENVFILE_PATH")
 
 if ENVFILE:
