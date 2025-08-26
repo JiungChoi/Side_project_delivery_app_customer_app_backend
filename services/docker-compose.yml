@@ -10,5 +10,5 @@ include:
   - order_service/docker-compose.yml
   # - cart_service/docker-compose.yml
   - menu_service/docker-compose.yml
-  # - restaurant_service/docker-compose.yml
+  - restaurant_service/docker-compose.yml
   # - user_service/docker-compose.yml

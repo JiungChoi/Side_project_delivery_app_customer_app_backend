@@ -3,12 +3,18 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 from utility.db import Base
-from utility.enums import RestaurantImageType
+from utility.enums import RestaurantImageType, RestaurantStatus
 
 
 class Restaurant(Base):
     __tablename__ = "restaurant"
-    __table_args__ = {"schema": "restaurant_service"}
+    __table_args__ = (
+        CheckConstraint(
+            "status IN (" + ",".join(f"'{s.value}'" for s in RestaurantStatus) + ")",
+            name="check_restaurant_status"
+        ),
+        {"schema": "restaurant_service"},
+    )
 
     uuid = Column(Uuid, primary_key=True)
     name = Column(String, nullable=False)
@@ -22,6 +28,7 @@ class Restaurant(Base):
     operating_hours = Column(String)
     tags = Column(String)
     image_url = Column(String)
+    status = Column(String, nullable=False, default=RestaurantStatus.OPEN.value)
     created_at = Column(DateTime(timezone=True), default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), default=func.now(), onupdate=func.now(), nullable=False)
     is_deleted = Column(Boolean, default=False, nullable=False)

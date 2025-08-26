@@ -1,0 +1,15 @@
+services:
+  restaurant-service:
+    container_name: restaurant-service
+    image: ghcr.io/digitrack-inc/restaurant-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8005:9112
+    env_file:
+      - environments/.env.local
+    external_links:
+      - postgres_main:postgres
+    networks:
+      - app_network
