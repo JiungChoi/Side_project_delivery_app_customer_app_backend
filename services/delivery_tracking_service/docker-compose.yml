@@ -1,13 +1,17 @@
 services:
-  delivery_tracking_service:
-    container_name: delivery_tracking_service
-    image: delivery_tracking_service:latest
+  delivery-tracking-service:
+    container_name: delivery-tracking-service
+    image: ghcr.io/digitrack-inc/delivery-tracking-service:latest
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 9104:9104
+      - 8006:9104
     volumes:
       - ./repository/:/app/repository/
     env_file:
-      - environments/.env.local 
+      - environments/.env.local
+    external_links:
+      - postgres_main:postgres
+    networks:
+      - app_network 

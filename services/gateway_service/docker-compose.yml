@@ -1,13 +1,17 @@
 services:
-  gateway_service:
-    container_name: gateway_service
-    image: gateway_service:latest
+  gateway-service:
+    container_name: gateway-service
+    image: ghcr.io/digitrack-inc/gateway-service:latest
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 9102:9102
+      - 8003:9102
     volumes:
       - ./repository/:/app/repository/
     env_file:
-      - environments/.env.local 
+      - environments/.env.local
+    external_links:
+      - postgres_main:postgres
+    networks:
+      - app_network 

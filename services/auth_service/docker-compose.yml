@@ -1,13 +1,17 @@
 services:
-  auth_service:
-    container_name: auth_service
-    image: auth_service:latest
+  auth-service:
+    container_name: auth-service
+    image: ghcr.io/digitrack-inc/auth-service:latest
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 9101:9101
+      - 8000:9101
     volumes:
       - ./repository/:/app/repository/
     env_file:
-      - environments/.env.local 
+      - environments/.env.local
+    external_links:
+      - postgres_main:postgres
+    networks:
+      - app_network 

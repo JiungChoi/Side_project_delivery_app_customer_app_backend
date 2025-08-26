@@ -1,13 +1,17 @@
 services:
-  system_alert_service:
-    container_name: system_alert_service
-    image: system_alert_service:latest
+  system-alert-service:
+    container_name: system-alert-service
+    image: ghcr.io/digitrack-inc/system-alert-service:latest
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 9103:9103
+      - 8004:9103
     volumes:
       - ./repository/:/app/repository/
     env_file:
-      - environments/.env.local 
+      - environments/.env.local
+    external_links:
+      - postgres_main:postgres
+    networks:
+      - app_network 

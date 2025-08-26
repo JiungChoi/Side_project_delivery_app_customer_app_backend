@@ -3,7 +3,7 @@ import os
 import dotenv
 from utility.logger import logger
 
-# .env |X X� �| \�i��
+# .env 파일의 환경 변수를 로드합니다
 ENVFILE = os.getenv("ENVFILE_PATH")
 
 if ENVFILE:
