@@ -1,0 +1,16 @@
+services:
+
+  cart-service:
+    container_name: cart-service
+    image: ghcr.io/digitrack-inc/cart-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8007:9115
+    env_file:
+      - environments/.env.local
+    external_links:
+      - postgres_main:postgres
+    networks:
+      - app_network
