@@ -17,13 +17,13 @@ def create_schema_if_not_exists():
         logger.error(f"user_service 스키마 생성 중 오류 발생: {e}")
         raise
 
-# 스키마 먼저 생성
-create_schema_if_not_exists()
-
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+# 스키마를 자동으로 생성하되 app.py에서도 명시적으로 호출할 수 있도록 함
+create_schema_if_not_exists()
 
 def get_db():
     
