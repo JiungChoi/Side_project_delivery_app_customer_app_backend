@@ -4,23 +4,15 @@ from pydantic import BaseModel, Field
 from model.exception import (
     WCSException,
     ConnectionException,
-    OrderServiceException,
-    OrderNotFoundException,
-    OrderStatusException,
-    OrderValidationException,
-    PaymentException,
-    OrderItemException,
-    RestaurantNotFoundException,
-    MenuNotFoundException,
-    AddressNotFoundException,
+    UserServiceException,
     UserNotFoundException,
-    OrderCancellationException,
-    OrderCompletionException,
+    UserValidationException,
+    UserPermissionException,
+    DuplicateUserException,
     DatabaseException,
     ExternalServiceException,
     AuthenticationException,
     AuthorizationException,
-    RateLimitException,
     UnknownException
 )
 
@@ -87,29 +79,15 @@ def try_get_data_from_result(result: dict) -> Any:
         elif code == "PTCM-E001":
             raise ConnectionException(message)
         elif code == "PTCM-E100":
-            raise OrderServiceException(message)
+            raise UserServiceException(message)
         elif code == "PTCM-E101":
-            raise OrderNotFoundException(message)
-        elif code == "PTCM-E102":
-            raise OrderStatusException(message)
-        elif code == "PTCM-E103":
-            raise OrderValidationException(message)
-        elif code == "PTCM-E104":
-            raise PaymentException(message)
-        elif code == "PTCM-E105":
-            raise OrderItemException(message)
-        elif code == "PTCM-E106":
-            raise RestaurantNotFoundException(message)
-        elif code == "PTCM-E107":
-            raise MenuNotFoundException(message)
-        elif code == "PTCM-E108":
-            raise AddressNotFoundException(message)
-        elif code == "PTCM-E109":
             raise UserNotFoundException(message)
-        elif code == "PTCM-E110":
-            raise OrderCancellationException(message)
-        elif code == "PTCM-E111":
-            raise OrderCompletionException(message)
+        elif code == "PTCM-E102":
+            raise UserValidationException(message)
+        elif code == "PTCM-E103":
+            raise UserPermissionException(message)
+        elif code == "PTCM-E104":
+            raise DuplicateUserException(message)
         elif code == "PTCM-E200":
             raise DatabaseException(message)
         elif code == "PTCM-E300":
@@ -118,8 +96,6 @@ def try_get_data_from_result(result: dict) -> Any:
             raise AuthenticationException(message)
         elif code == "PTCM-E401":
             raise AuthorizationException(message)
-        elif code == "PTCM-E429":
-            raise RateLimitException(message)
         elif code == "PTCM-E999":
             raise UnknownException(message)
         else:
