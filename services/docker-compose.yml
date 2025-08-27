@@ -3,7 +3,7 @@ include:
   # - gateway_service/docker-compose.yml
   # - system_alert_service/docker-compose.yml
   # - delivery_tracking_service/docker-compose.yml
-  # - customer_support_service/docker-compose.yml
+  - customer_support_service/docker-compose.yml
   # - notification_service/docker-compose.yml
   - review_service/docker-compose.yml
   # - payment_service/docker-compose.yml

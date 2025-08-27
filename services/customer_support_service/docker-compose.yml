@@ -1,0 +1,15 @@
+services:
+  customer-support-service:
+    container_name: customer-support-service
+    image: ghcr.io/digitrack-inc/customer-support-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8009:9113
+    env_file:
+      - environments/.env.local
+    external_links:
+      - postgres_main:postgres
+    networks:
+      - app_network
