@@ -1,0 +1,16 @@
+services:
+
+  user-service:
+    container_name: user-service
+    image: ghcr.io/digitrack-inc/user-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8009:9111
+    env_file:
+      - environments/.env.local
+    external_links:
+      - postgres_main:postgres
+    networks:
+      - app_network

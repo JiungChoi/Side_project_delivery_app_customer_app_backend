@@ -1,2 +1,10 @@
-# enums.py
-# user_service용 enum 정의 파일 
+# -*- coding: utf-8 -*-
+from enum import Enum
+
+class UserStatus(Enum):
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+    SUSPENDED = "suspended"
+    DELETED = "deleted"
+
+
