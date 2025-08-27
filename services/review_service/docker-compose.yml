@@ -12,3 +12,5 @@ services:
       - environments/.env.local
     external_links:
       - postgres_main:postgres
+    networks:
+      - app_network
