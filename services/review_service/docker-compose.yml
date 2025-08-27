@@ -1,0 +1,14 @@
+services:
+
+  review-service:
+    container_name: review-service
+    image: ghcr.io/digitrack-inc/review-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8008:9110
+    env_file:
+      - environments/.env.local
+    external_links:
+      - postgres_main:postgres
