@@ -12,7 +12,3 @@ include:
   - menu_service/docker-compose.yml
   - restaurant_service/docker-compose.yml
   - user_service/docker-compose.yml
-
-networks:
-  app_network:
-    external: true
