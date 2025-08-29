@@ -1,6 +1,6 @@
 include:
   # - auth_service/docker-compose.yml
-  # - gateway_service/docker-compose.yml
+  - gateway_service/docker-compose.yml
   # - system_alert_service/docker-compose.yml
   # - delivery_tracking_service/docker-compose.yml
   - customer_support_service/docker-compose.yml

@@ -3,7 +3,7 @@ import os
 import dotenv
 from utility.logger import logger
 
-# .env |X X½ À| \ÜiÈä
+# .env íŒŒì¼ ê²½ë¡œ ì„¤ì •í•©ë‹ˆë‹¤
 ENVFILE = os.getenv("ENVFILE_PATH")
 
 if ENVFILE:

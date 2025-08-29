@@ -3,7 +3,10 @@
     "allow": [
       "Bash(alembic init:*)",
       "Bash(docker-compose exec:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git log:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []

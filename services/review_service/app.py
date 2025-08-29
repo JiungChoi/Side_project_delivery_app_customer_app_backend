@@ -24,7 +24,7 @@ def main():
     Base.metadata.create_all(bind=engine)
 
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=9110)
+    uvicorn.run(app, host="0.0.0.0", port=9117)
 
 
 if __name__ == "__main__":

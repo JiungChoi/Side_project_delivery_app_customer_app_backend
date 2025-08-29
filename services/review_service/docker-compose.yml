@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 8008:9110
+      - 8008:9117
     env_file:
       - environments/.env.local
     external_links:
