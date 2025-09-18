@@ -51,8 +51,24 @@ async def try_add_cart_item(request: AddCartItemRequestDto):
             .first()
         )
         print(f"[CART_SERVICE] Existing cart found: {existing_cart is not None}")
-        if existing_cart and existing_cart.restaurant_id != restaurant_uuid:
-            raise RestaurantMismatchException("다른 매장의 메뉴는 장바구니에 추가할 수 없습니다.")
+
+        # 기존 장바구니가 있는 경우, 활성 아이템이 있는지 확인
+        if existing_cart:
+            active_items = session.query(CartItem).filter(
+                CartItem.cart_id == existing_cart.uuid,
+                CartItem.is_deleted == False
+            ).count()
+
+            print(f"[CART_SERVICE] Active items in existing cart: {active_items}")
+
+            # 활성 아이템이 있는 경우에만 레스토랑 일치 확인
+            if active_items > 0 and existing_cart.restaurant_id != restaurant_uuid:
+                raise RestaurantMismatchException("다른 매장의 메뉴는 장바구니에 추가할 수 없습니다.")
+
+            # 활성 아이템이 없는 경우 레스토랑 ID 업데이트
+            if active_items == 0:
+                print(f"[CART_SERVICE] No active items, updating restaurant_id from {existing_cart.restaurant_id} to {restaurant_uuid}")
+                existing_cart.restaurant_id = restaurant_uuid
 
         if not existing_cart:
             print(f"[CART_SERVICE] Creating new cart")

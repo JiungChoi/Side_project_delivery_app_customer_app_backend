@@ -15,9 +15,12 @@ from datetime import datetime
 
 async def try_delete_cart_item(item_id: UUID, request: DeleteCartItemRequestDto):
     session = next(get_db())
-    
+
     try:
+        print(f"[DELETE_CART_ITEM] Starting deletion - item_id: {item_id}, user_id: {request.user_id}")
+
         if not request.user_id:
+            print("[DELETE_CART_ITEM] Error: Missing user_id")
             raise AuthenticationException("사용자 ID가 필요합니다.")
 
         # 장바구니 아이템 조회
@@ -27,7 +30,10 @@ async def try_delete_cart_item(item_id: UUID, request: DeleteCartItemRequestDto)
         ).first()
 
         if not cart_item:
+            print(f"[DELETE_CART_ITEM] Error: Cart item not found - item_id: {item_id}")
             raise CartItemNotFoundException("장바구니 항목을 찾을 수 없습니다.")
+
+        print(f"[DELETE_CART_ITEM] Cart item found - cart_id: {cart_item.cart_id}")
 
         # 사용자 권한 확인
         cart = session.query(Cart).filter(
@@ -36,6 +42,7 @@ async def try_delete_cart_item(item_id: UUID, request: DeleteCartItemRequestDto)
         ).first()
 
         if not cart or cart.user_id != request.user_id:
+            print(f"[DELETE_CART_ITEM] Error: Authorization failed - cart.user_id: {cart.user_id if cart else None}, request.user_id: {request.user_id}")
             raise AuthorizationException("해당 장바구니 항목을 삭제할 권한이 없습니다.")
 
         # 장바구니 아이템 옵션 soft delete
@@ -43,6 +50,8 @@ async def try_delete_cart_item(item_id: UUID, request: DeleteCartItemRequestDto)
             CartItemOption.cart_item_id == cart_item.uuid,
             CartItemOption.is_deleted == False
         ).all()
+
+        print(f"[DELETE_CART_ITEM] Found {len(cart_item_options)} options to delete")
 
         deleted_time = datetime.utcnow()
         for option in cart_item_options:
@@ -53,8 +62,10 @@ async def try_delete_cart_item(item_id: UUID, request: DeleteCartItemRequestDto)
         cart_item.is_deleted = True
         cart_item.updated_at = deleted_time
 
+        print(f"[DELETE_CART_ITEM] Committing deletion")
         session.commit()
 
+        print(f"[DELETE_CART_ITEM] Deletion successful - item_id: {item_id}")
         response = DeleteCartItemResponseDto(item_id=item_id, deleted_at=deleted_time)
         return create_success_result(response)
         

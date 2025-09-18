@@ -32,6 +32,11 @@ async def try_get_cart(request: GetCartRequestDto):
             CartItem.is_deleted == False
         ).all()
 
+        # 활성 아이템이 없는 경우 Cart를 null로 반환
+        if not cart_items:
+            print(f"[GET_CART] No active items found for cart {cart.uuid}, returning null cart")
+            return create_success_result(GetCartResponseDto(cart=None))
+
         # 응답 DTO 생성
         items = []
         for item in cart_items:
