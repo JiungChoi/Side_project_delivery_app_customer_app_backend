@@ -1,9 +1,7 @@
 from pydantic import BaseModel, Field
-from uuid import UUID
-from datetime import datetime
+from .get_cart import CartItemDto
 
 
 class AddCartItemResponseDto(BaseModel):
-    """장바구니 아이템 추가 응답"""
-    cart_item_id: UUID = Field(..., description="생성된 장바구니 아이템 ID")
-    created_at: datetime = Field(..., description="생성일시")
+    """Add cart item response"""
+    cart_item: CartItemDto = Field(..., description="Created cart item")

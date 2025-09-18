@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from schemas.request.get_cart import GetCartRequestDto
 from schemas.response.get_cart import GetCartResponseDto, CartDto, CartItemDto, CartItemOptionDto
 from schemas.common import create_success_result, create_error_result, create_unknown_error_result
@@ -40,20 +41,25 @@ async def try_get_cart(request: GetCartRequestDto):
                 CartItemOption.is_deleted == False
             ).all()
 
-            option_dtos = [
-                CartItemOptionDto(
+            option_dtos = []
+            for option in item_options:
+                # 저장된 옵션 이름 사용
+                option_dtos.append(CartItemOptionDto(
                     uuid=option.uuid,
                     menu_option_id=option.menu_option_id,
+                    menu_option_name=option.menu_option_name,  # DB에 저장된 이름 사용
                     price=option.price,
                     created_at=option.created_at,
-                    updated_at=option.updated_at
-                )
-                for option in item_options
-            ]
+                    updated_at=option.updated_at,
+                ))
 
+            # 저장된 메뉴 정보를 평면화하여 직접 포함
             item_dto = CartItemDto(
                 uuid=item.uuid,
                 menu_id=item.menu_id,
+                menu_name=item.menu_name,
+                menu_description=item.menu_description,
+                menu_image_url=item.menu_image_url,
                 quantity=item.quantity,
                 price=item.price,
                 created_at=item.created_at,

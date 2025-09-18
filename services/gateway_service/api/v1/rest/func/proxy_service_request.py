@@ -38,6 +38,7 @@ async def proxy_service_request(service_name: str, path: str, request: Request):
                 )
             else:
                 body = await request.body()
+                logger.info(f"Request body size: {len(body)} bytes")
                 response = await client.request(
                     method,
                     target_url,
@@ -46,15 +47,24 @@ async def proxy_service_request(service_name: str, path: str, request: Request):
                     params=request.query_params,
                     timeout=Config.REQUEST_TIMEOUT
                 )
-            
+
             logger.info(f"Service response status: {response.status_code}")
-            
+            logger.info(f"Service response headers: {dict(response.headers)}")
+
+            # Return appropriate response based on status code
+            if response.status_code >= 400:
+                logger.error(f"Service returned error: {response.status_code} - {response.text}")
+                raise HTTPException(status_code=response.status_code, detail=response.text)
+
             # Return JSON if content type is JSON, otherwise return text
             if response.headers.get("content-type", "").startswith("application/json"):
                 return response.json()
             else:
                 return response.text
-                
+
+    except httpx.TimeoutException as e:
+        logger.error(f"Request timeout after {Config.REQUEST_TIMEOUT}s: {str(e)}")
+        raise HTTPException(status_code=504, detail=f"Service timeout after {Config.REQUEST_TIMEOUT}s")
     except httpx.RequestError as e:
         logger.error(f"Request error: {str(e)}")
         raise HTTPException(status_code=503, detail=f"Service unavailable: {str(e)}")
@@ -63,4 +73,6 @@ async def proxy_service_request(service_name: str, path: str, request: Request):
         raise HTTPException(status_code=e.response.status_code, detail=e.response.text)
     except Exception as e:
         logger.error(f"Unexpected error: {str(e)}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail="Internal gateway error")

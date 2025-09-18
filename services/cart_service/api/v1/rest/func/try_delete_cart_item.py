@@ -55,7 +55,7 @@ async def try_delete_cart_item(item_id: UUID, request: DeleteCartItemRequestDto)
 
         session.commit()
 
-        response = DeleteCartItemResponseDto(deleted_at=deleted_time)
+        response = DeleteCartItemResponseDto(item_id=item_id, deleted_at=deleted_time)
         return create_success_result(response)
         
     except (AuthenticationException, CartItemNotFoundException, AuthorizationException) as e:

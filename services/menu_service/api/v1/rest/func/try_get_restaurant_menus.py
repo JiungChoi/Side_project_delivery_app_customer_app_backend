@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 import uuid
 from utility.db import SessionLocal
 from schemas.common import ResultDto, create_success_result, create_error_result
@@ -30,12 +31,23 @@ async def try_get_restaurant_menus(restaurant_id: uuid.UUID) -> ResultDto:
             active_menus = [menu for menu in category.menus if not menu.is_deleted]
             print(f"[MENU_SERVICE] Category '{category.name}' has {len(active_menus)} active menus")
             
-            category_data = {
-                "uuid": str(category.uuid),
-                "restaurant_id": str(category.restaurant_id),
-                "name": category.name,
-                "ordering": category.ordering,
-                "menus": [{
+            # Get review statistics for each menu
+            menu_data = []
+            for menu in active_menus:
+                # Calculate average rating and review count for this menu
+                from model.menu import MenuReview
+                review_stats = db.query(
+                    func.avg(MenuReview.rating).label('avg_rating'),
+                    func.count(MenuReview.uuid).label('review_count')
+                ).filter(
+                    MenuReview.menu_id == menu.uuid,
+                    MenuReview.is_deleted == False
+                ).first()
+                
+                avg_rating = float(review_stats.avg_rating) if review_stats.avg_rating else 0.0
+                review_count = review_stats.review_count if review_stats.review_count else 0
+                
+                menu_data.append({
                     "uuid": str(menu.uuid),
                     "category_id": str(menu.category_id),
                     "name": menu.name,
@@ -43,8 +55,17 @@ async def try_get_restaurant_menus(restaurant_id: uuid.UUID) -> ResultDto:
                     "price": menu.price,
                     "image_url": menu.image_url,
                     "is_sold_out": menu.is_sold_out,
-                    "ordering": menu.ordering
-                } for menu in active_menus]
+                    "ordering": menu.ordering,
+                    "average_rating": round(avg_rating, 1),
+                    "review_count": review_count
+                })
+            
+            category_data = {
+                "uuid": str(category.uuid),
+                "restaurant_id": str(category.restaurant_id),
+                "name": category.name,
+                "ordering": category.ordering,
+                "menus": menu_data
             }
             result_data.append(category_data)
         

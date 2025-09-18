@@ -1,7 +1,8 @@
 from pydantic import BaseModel, Field
-from datetime import datetime
+from .get_cart import CartItemDto
 
 
 class UpdateCartItemResponseDto(BaseModel):
-    """장바구니 아이템 수정 응답"""
-    updated_at: datetime = Field(..., description="수정일시")
+    """Update cart item response"""
+    cart_item: CartItemDto = Field(..., description="Updated cart item")
+

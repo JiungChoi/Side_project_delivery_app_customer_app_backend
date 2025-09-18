@@ -1,6 +1,6 @@
 from sqlalchemy import (
     Column, String, Integer, ForeignKey, Uuid, DateTime,
-    Boolean, func
+    Boolean, func, Float
 )
 from sqlalchemy.orm import relationship
 from utility.db import Base
@@ -70,6 +70,21 @@ class MenuOption(Base):
     price = Column(Integer, nullable=False)
     ordering = Column(Integer, default=0)
 
+    created_at = Column(DateTime(timezone=True), default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), default=func.now(), onupdate=func.now(), nullable=False)
+    is_deleted = Column(Boolean, default=False, nullable=False)
+
+
+class MenuReview(Base):
+    __tablename__ = "menu_review"
+    __table_args__ = {"schema": "menu_service"}
+
+    uuid = Column(Uuid, primary_key=True)
+    menu_id = Column(Uuid, ForeignKey("menu_service.menu.uuid"), nullable=False)
+    customer_id = Column(Uuid, nullable=False)  # Reference to customer
+    rating = Column(Float, nullable=False)  # 1.0 to 5.0
+    comment = Column(String)
+    
     created_at = Column(DateTime(timezone=True), default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), default=func.now(), onupdate=func.now(), nullable=False)
     is_deleted = Column(Boolean, default=False, nullable=False)

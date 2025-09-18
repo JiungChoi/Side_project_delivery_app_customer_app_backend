@@ -13,6 +13,20 @@ Base = declarative_base()
 try:
     with engine.connect() as conn:
         conn.execute(text("CREATE SCHEMA IF NOT EXISTS cart_service"))
+        # Best-effort schema migration for cart_item_option
+        try:
+            conn.execute(text("""
+                ALTER TABLE cart_service.cart_item_option 
+                ADD COLUMN IF NOT EXISTS menu_option_name VARCHAR;
+            """))
+            conn.execute(text("""
+                ALTER TABLE cart_service.cart_item_option 
+                ALTER COLUMN menu_option_id DROP NOT NULL;
+            """))
+            conn.commit()
+        except Exception as _:
+            # ignore migration issues to avoid startup failure
+            pass
         conn.commit()
 except Exception as e:
     print(f"Schema creation warning: {e}")

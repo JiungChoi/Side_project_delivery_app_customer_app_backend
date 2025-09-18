@@ -1,7 +1,10 @@
 from pydantic import BaseModel, Field
+from uuid import UUID
 from datetime import datetime
 
 
 class DeleteCartItemResponseDto(BaseModel):
-    """장바구니 아이템 삭제 응답"""
-    deleted_at: datetime = Field(..., description="삭제일시")
+    """Delete cart item response"""
+    item_id: UUID = Field(..., description="Deleted cart item ID")
+    deleted_at: datetime = Field(..., description="Deleted at")
+

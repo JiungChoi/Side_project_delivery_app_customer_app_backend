@@ -5,35 +5,38 @@ from datetime import datetime
 
 
 class CartItemOptionDto(BaseModel):
-    """장바구니 아이템 옵션 응답"""
-    uuid: UUID = Field(..., description="옵션 ID")
-    menu_option_id: UUID = Field(..., description="메뉴 옵션 ID")
-    price: int = Field(..., description="옵션 가격")
-    created_at: datetime = Field(..., description="생성일시")
-    updated_at: datetime = Field(..., description="수정일시")
+    uuid: UUID = Field(..., description="Option ID")
+    menu_option_id: Optional[UUID] = Field(None, description="Menu option ID")
+    menu_option_name: Optional[str] = Field(None, description="Menu option name")
+    price: int = Field(..., description="Option price")
+    created_at: datetime = Field(..., description="Created at")
+    updated_at: datetime = Field(..., description="Updated at")
+
+
 
 
 class CartItemDto(BaseModel):
-    """장바구니 아이템 응답"""
-    uuid: UUID = Field(..., description="장바구니 아이템 ID")
-    menu_id: UUID = Field(..., description="메뉴 ID")
-    quantity: int = Field(..., description="수량")
-    price: int = Field(..., description="메뉴 가격")
-    created_at: datetime = Field(..., description="생성일시")
-    updated_at: datetime = Field(..., description="수정일시")
-    options: Optional[List[CartItemOptionDto]] = Field(None, description="선택 옵션 목록")
+    uuid: UUID = Field(..., description="Cart item ID")
+    menu_id: UUID = Field(..., description="Menu ID")
+    menu_name: Optional[str] = Field(None, description="Menu name")
+    menu_description: Optional[str] = Field(None, description="Menu description")
+    menu_image_url: Optional[str] = Field(None, description="Menu image URL")
+    quantity: int = Field(..., description="Quantity")
+    price: int = Field(..., description="Menu price")
+    created_at: datetime = Field(..., description="Created at")
+    updated_at: datetime = Field(..., description="Updated at")
+    options: Optional[List[CartItemOptionDto]] = Field(None, description="Selected options")
 
 
 class CartDto(BaseModel):
-    """장바구니 응답"""
-    uuid: UUID = Field(..., description="장바구니 ID")
-    user_id: UUID = Field(..., description="사용자 ID")
-    restaurant_id: UUID = Field(..., description="매장 ID")
-    created_at: datetime = Field(..., description="생성일시")
-    updated_at: datetime = Field(..., description="수정일시")
-    items: Optional[List[CartItemDto]] = Field(None, description="장바구니 아이템 목록")
+    uuid: UUID = Field(..., description="Cart ID")
+    user_id: UUID = Field(..., description="User ID")
+    restaurant_id: UUID = Field(..., description="Restaurant ID")
+    created_at: datetime = Field(..., description="Created at")
+    updated_at: datetime = Field(..., description="Updated at")
+    items: Optional[List[CartItemDto]] = Field(None, description="Cart items")
 
 
 class GetCartResponseDto(BaseModel):
-    """장바구니 조회 응답"""
-    cart: Optional[CartDto] = Field(None, description="장바구니 정보")
+    cart: Optional[CartDto] = Field(None, description="Cart")
+

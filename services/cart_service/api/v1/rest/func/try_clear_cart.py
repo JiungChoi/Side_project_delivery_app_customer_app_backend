@@ -57,7 +57,7 @@ async def try_clear_cart(request: ClearCartRequestDto):
 
         session.commit()
 
-        response = ClearCartResponseDto(cleared_at=cleared_time)
+        response = ClearCartResponseDto(cart_id=cart.uuid, cleared_at=cleared_time)
         return create_success_result(response)
         
     except (AuthenticationException, CartNotFoundException) as e:
